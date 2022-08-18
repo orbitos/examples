@@ -1,0 +1,48 @@
+# Orbitos manifest
+name: simple_payload
+services:
+
+  # Customer payload
+  always:
+    # When should this service be started?
+    run-at: startup # start immediately
+    # run-at: every(1m)
+    # run-at: cron(0/5 * * * *)
+    # run-at: on-demand
+
+    deploy:
+      # When deployed, use this built image
+      image: org/repo
+      label: latest
+
+    build:
+      # The subdirectory the app is located in
+      dockerfile: ./Dockerfile
+      context: '.'
+      # If not the default target, then specify the target 
+      target: base
+          
+    # What is the command to run in the container?
+    command: poetry run python -m simple_payload
+    # - ./example_satellite:/app
+
+  # Customer payload
+  delayed:
+    # When should this service be started?
+    run-at: on-demand
+
+    deploy:
+      # When deployed, use this built image
+      image: org/repo
+      label: latest
+
+    build:
+      # The subdirectory the app is located in
+      dockerfile: ./Dockerfile
+      context: '.'
+      # If not the default target, then specify the target 
+      target: base
+          
+    # What is the command to run in the container?
+    command: poetry run python -m simple_payload
+    # - ./example_satellite:/app
