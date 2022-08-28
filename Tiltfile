@@ -29,12 +29,38 @@ warn('ℹ️ Open {tiltfile_path} in your favorite editor to get started.'.forma
 #   More info: https://docs.tilt.dev/api.html#api.docker_build
 #
 # docker_compose('docker-compose.yml')
-docker_build('ghcr.io/orbitos/orbitos', '../../orbitos-python',
+docker_build('ghcr.io/orbitos/orbitos', '../orbitos',
              # (Recommended) Updating a running container in-place
              # https://docs.tilt.dev/live_update_reference.html
              live_update=[
                 # Sync files from host to container
-                sync('../../orbitos-python', '/app/'),
+                sync('../orbitos', '/app/'),
+                # Execute commands inside the container when certain
+                # paths change
+                # run('/src/codegen.sh', trigger=['./app/api'])
+                restart_container()
+             ]
+)
+
+docker_build('ghcr.io/orbitos/example-simple', '.',
+             # (Recommended) Updating a running container in-place
+             # https://docs.tilt.dev/live_update_reference.html
+             live_update=[
+                # Sync files from host to container
+                sync('.', '/app/'),
+                # Execute commands inside the container when certain
+                # paths change
+                # run('/src/codegen.sh', trigger=['./app/api'])
+                restart_container()
+             ]
+)
+
+docker_build('ghcr.io/orbitos/scheduler', '../orbitos/at',
+             # (Recommended) Updating a running container in-place
+             # https://docs.tilt.dev/live_update_reference.html
+             live_update=[
+                # Sync files from host to container
+                sync('../orbitos/at', '/app/'),
                 # Execute commands inside the container when certain
                 # paths change
                 # run('/src/codegen.sh', trigger=['./app/api'])

@@ -11,10 +11,10 @@ print("Starting payload!")
 
 while True:
     try:
-        print("Current location is ", os.system('cat /sensors/location/current_value'))
+        print("Current location is ", os.system('cat /orbitos/sensors/location/current_value'))
         
         with tempfile.TemporaryDirectory() as tmpdir:
-            shutil.copyfile('/sensors/_aggregated/current_value', os.path.join(tmpdir, 'sensors.json'))
+            shutil.copyfile('/orbitos/sensors/_aggregated/current_value', os.path.join(tmpdir, 'sensors.json'))
 
             with open(os.path.join(tmpdir, 'metadata.json'), 'w', encoding='utf-8') as f:
                 f.write(json.dumps({
@@ -29,7 +29,7 @@ while True:
                     
                 archive.printdir()
 
-            shutil.move(os.path.join(tmpdir, archive_name), os.path.join('/data/downlink', archive_name))
+            shutil.move(os.path.join(tmpdir, archive_name), os.path.join('/orbitos/comms/downlink', archive_name))
     except:
         print_exc()
         
